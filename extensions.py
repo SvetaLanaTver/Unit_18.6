@@ -14,19 +14,22 @@ class CryptoConverter:
 Увидеть формат запроса: /start')
 
         try:
-            quote_ticker = keys[quote]
-        except KeyError:
-            raise APIException(f'{quote} -такая валюта не обратывается.\n \
-Увидеть список всех доступных валют: /values')
-
-        try:
             base_ticker = keys[base]
         except KeyError:
             raise APIException(f'{base} - такая валюта не обратывается.\n \
 Увидеть список всех доступных валют: /values')
 
         try:
+            quote_ticker = keys[quote]
+        except KeyError:
+            raise APIException(f'{quote} -такая валюта не обратывается.\n \
+Увидеть список всех доступных валют: /values')
+
+        try:
             amount = float(amount)
+            if float(amount) <= 0:
+                raise APIException('Параметр <количество валюты1> должен быть > 0. \n \
+                Введите запрос ещё раз')
         except ValueError:
             raise APIException(f'Некорректно указано количество - {amount}')
 

@@ -38,15 +38,19 @@ def get_price(message: telebot.types.Message):
 
         if len(values) != 3:
             raise APIException('Запрос не соответствует формату <валюта1> <валюта2> <количество валюты1>. \n \
-Увидеть формат запроса: /help')
+Посмотреть формат запроса: /help')
 
         base, quote, amount = values
-        amount = amount.replace(',', '.') # заменяем запятую на точку
+        amount = amount.replace(',', '.') # заменяем запятую на точку, если есть
+
         total_quote = CryptoConverter.get_price(base, quote, amount)
+
     except APIException as e:
         bot.reply_to(message, f'Ошибка пользователя.\n{e}')
+
     except Exception as e:
         bot.reply_to(message, f'Системная ошибка. Не удалось обработать запрос - попробуйте позже ещё раз\n{e}')
+
     else:
         total_quote *= float(amount)
         text = f'Цена {amount} {base} = {total_quote} {quote}'
