@@ -7,7 +7,7 @@ class APIException(Exception):
 
 class CryptoConverter:
     @staticmethod
-    def get_price(quote: str, base: str, amount: str):
+    def get_price(base: str, quote: str, amount: str):
 
         if quote == base:
             raise APIException('Валюты одинаковые. \n \
@@ -28,10 +28,10 @@ class CryptoConverter:
         try:
             amount = float(amount)
         except ValueError:
-            raise APIException(f'Некорректно указано количество {amount}')
+            raise APIException(f'Некорректно указано количество - {amount}')
 
-        r = requests.get(f'https://min-api.cryptocompare.com/data/price?fsym={quote_ticker}&tsyms={base_ticker}')
-        total_base = json.loads(r.content)[keys[base]]
+        r = requests.get(f'https://min-api.cryptocompare.com/data/price?fsym={base_ticker}&tsyms={quote_ticker}')
+        total_quote = json.loads(r.content)[keys[quote]]
 
-        return total_base
+        return total_quote
 
