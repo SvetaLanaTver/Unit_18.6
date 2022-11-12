@@ -32,7 +32,7 @@ def values(message: telebot.types.Message):
     bot.reply_to(message, text)
 
 @bot.message_handler(content_types=['text', ])
-def convert(message: telebot.types.Message):
+def get_price(message: telebot.types.Message):
     try:
         values = message.text.lower().split(' ') #переводим все символы в нижний регистр и разбиваем
 
@@ -41,7 +41,7 @@ def convert(message: telebot.types.Message):
 Увидеть формат запроса: /help')
 
         quote, base, amount = values
-        total_base = CryptoConverter.convert1(quote, base, amount)
+        total_base = CryptoConverter.get_price(quote, base, amount)
     except APIException as e:
         bot.reply_to(message, f'Ошибка пользователя.\n{e}')
     except Exception as e:
