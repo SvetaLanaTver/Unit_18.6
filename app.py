@@ -1,6 +1,6 @@
 import telebot
 from config import keys, TOKEN
-from utils import ConvertionException, CryptoConverter
+from utils import APIException, CryptoConverter
 
 bot = telebot.TeleBot(TOKEN)
 
@@ -37,12 +37,12 @@ def convert(message: telebot.types.Message):
         values = message.text.lower().split(' ') #переводим все символы в нижний регистр и разбиваем
 
         if len(values) != 3:
-            raise ConvertionException('Запрос не соответствует формату <валюта1> <валюта2> <количество валюты1>. \n \
+            raise APIException('Запрос не соответствует формату <валюта1> <валюта2> <количество валюты1>. \n \
 Увидеть формат запроса: /help')
 
         quote, base, amount = values
         total_base = CryptoConverter.convert1(quote, base, amount)
-    except ConvertionException as e:
+    except APIException as e:
         bot.reply_to(message, f'Ошибка пользователя.\n{e}')
     except Exception as e:
         bot.reply_to(message, f'Не удалось обработать запрос\n{e}')
