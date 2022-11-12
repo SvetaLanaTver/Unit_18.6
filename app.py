@@ -37,7 +37,7 @@ def convert(message: telebot.types.Message):
         values = message.text.lower().split(' ') #переводим все символы в нижний регистр и разбиваем
 
         if len(values) != 3:
-            raise ConvertionException('Запрос не соответствует формату <валюта> <валюта> <количество>. \n \
+            raise ConvertionException('Запрос не соответствует формату <валюта1> <валюта2> <количество валюты1>. \n \
 Увидеть формат запроса: /help')
 
         quote, base, amount = values
